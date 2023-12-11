@@ -53,7 +53,7 @@ class TensorSDF(TensorVMSplit):
     def sd2alpha(sd, dist):
         # sigma, dist  [N_rays, N_samples]
         sd_shifted = torch.cat(sd[1:], 0)
-        alpha = torch.sigmoid((sd - sd_shifted) / sd)
+        alpha = (torch.sigmoid(sd) - torch.sigmoid(sd_shifted)) / torch.sigmoid(sd)
 
         T = torch.cumprod(
             torch.cat(
