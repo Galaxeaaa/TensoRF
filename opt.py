@@ -20,7 +20,7 @@ def config_parser(cmd=None):
     parser.add_argument('--downsample_test', type=float, default=1.0)
 
     parser.add_argument('--model_name', type=str, default='TensorVMSplit',
-                        choices=['TensorVMSplit', 'TensorCP'])
+                        choices=['TensorVMSplit', 'TensorCP', 'TensorSDF'])
 
     # loader options
     parser.add_argument("--batch_size", type=int, default=4096)
@@ -54,6 +54,12 @@ def config_parser(cmd=None):
                         help='loss weight')
     parser.add_argument("--TV_weight_app", type=float, default=0.0,
                         help='loss weight')
+    parser.add_argument("--eikonal_weight", type=float, default=0.0,
+                        help='loss weight')
+    parser.add_argument("--eikonal_grid_size", type=float, default=1.0,
+                        help='sampling grid size for eikonal loss')
+    parser.add_argument("--eikonal_sample_num", type=int, default=3,
+                        help='sampling point number for eikonal loss along each axis')
     
     # model
     # volume options

@@ -7,12 +7,11 @@ import time
 
 
 def positional_encoding(positions, freqs):
-    
-        freq_bands = (2**torch.arange(freqs).float()).to(positions.device)  # (F,)
-        pts = (positions[..., None] * freq_bands).reshape(
-            positions.shape[:-1] + (freqs * positions.shape[-1], ))  # (..., DF)
-        pts = torch.cat([torch.sin(pts), torch.cos(pts)], dim=-1)
-        return pts
+    freq_bands = (2**torch.arange(freqs).float()).to(positions.device)  # (F,)
+    pts = (positions[..., None] * freq_bands).reshape(
+        positions.shape[:-1] + (freqs * positions.shape[-1], ))  # (..., DF)
+    pts = torch.cat([torch.sin(pts), torch.cos(pts)], dim=-1)
+    return pts
 
 def raw2alpha(sigma, dist):
     # sigma, dist  [N_rays, N_samples]
@@ -462,5 +461,5 @@ class TensorBase(torch.nn.Module):
             depth_map = torch.sum(weight * z_vals, -1)
             depth_map = depth_map + (1. - acc_map) * rays_chunk[..., -1]
 
-        return rgb_map, depth_map # rgb, sigma, alpha, weight, bg_weight
+        return rgb_map, depth_map, xyz_sampled[ray_valid] # rgb, sigma, alpha, weight, bg_weight
 
